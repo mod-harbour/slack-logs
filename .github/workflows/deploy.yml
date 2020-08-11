@@ -19,6 +19,7 @@ jobs:
           mkdir ~/.ssh && \
           echo "$SSH_KEY" > ~/.ssh/slack-logs-key && \
           echo "$SSH_FINGERPRINT" > ~/.ssh/known_hosts && \
+          chmod 700 -R ~/.ssh && \
           ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
             "cd $SERVER_PATH && rm -rf * .*" && \
           scp -i ~/.ssh/slack-logs.key -r * .* "$SERVER_SSH":"$SERVER_PATH" && \
