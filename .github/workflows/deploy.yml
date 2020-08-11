@@ -18,13 +18,13 @@ jobs:
         run: |
           mkdir ~/.ssh && \
           echo "$SSH_KEY" > ~/.ssh/slack-logs-key && \
-          echo "Deleting files" && \
+          echo "$SSH_FINGERPRINT" > ~/.ssh/known_hosts && \
           ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
             "cd $SERVER_PATH && rm -rf * .*" && \
-          echo "Copying files" && \
           scp -i ~/.ssh/slack-logs.key -r * .* "$SERVER_SSH":"$SERVER_PATH" && \
           echo "Done"
         env:
           SERVER_SSH: user@slack.mod-harbour.org
           SERVER_PATH: slack-logs
           SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SSH_FINGERPRINT: slack.mod-harbour.org ${{ secrets.SERVER_SSH_FINGERPRINT }}
