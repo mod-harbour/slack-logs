@@ -21,9 +21,8 @@ jobs:
           echo "$SSH_FINGERPRINT" > ~/.ssh/known_hosts && \
           chmod 700 -R ~/.ssh && \
           ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
-            "cd $SERVER_PATH && rm -rf * .*" && \
-          scp -i ~/.ssh/slack-logs.key -r * .* "$SERVER_SSH":"$SERVER_PATH" && \
-          echo "Done"
+            "cd $SERVER_PATH && rm -rf * .[^.] .??*" && \
+          scp -i ~/.ssh/slack-logs.key -r * .[^.] .??* "$SERVER_SSH":"$SERVER_PATH"
         env:
           SERVER_SSH: user@slack.mod-harbour.org
           SERVER_PATH: slack-logs
