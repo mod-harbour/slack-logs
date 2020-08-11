@@ -1,0 +1,26 @@
+name: Deploy
+on: [push]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Clean up the repo
+        run: rm -rf .git .github LICENSE README.md
+
+      - name: Deploy
+        run: |
+          echo "$SSH_KEY" > ~/.ssh/slack-logs-key && \
+          ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
+            "cd $SERVER_PATH && rm -rf * .*" && \
+          scp -i ~/.ssh/slack-logs.key -r * .* "$SERVER_SSH":"$SERVER_PATH"
+        env:
+          SERVER_SSH: user@slack.mod-harbour.org
+          SERVER_PATH: slack-logs
+          SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
