@@ -1,0 +1,34 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Clean up the repo
+        run: rm -rf .git .github LICENSE README.md
+
+      - name: Deploy
+        run: |
+          mkdir ~/.ssh && \
+          echo "$SSH_KEY" > ~/.ssh/id_rsa && \
+          echo "$SSH_FINGERPRINT" > ~/.ssh/known_hosts && \
+          chmod 700 -R ~/.ssh && \
+          ssh -i ~/.ssh/id_rsa "$SERVER_SSH" \
+            "cd $SERVER_PATH && find -delete" && \
+          scp -i ~/.ssh/id_rsa -r $(find -maxdepth 1 -mindepth 1) \
+            "$SERVER_SSH":"$SERVER_PATH"
+        env:
+          SERVER_SSH: user@slack.mod-harbour.org
+          SERVER_PATH: slack-logs
+          SSH_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SSH_FINGERPRINT: slack.mod-harbour.org ${{ secrets.SERVER_SSH_FINGERPRINT }}
