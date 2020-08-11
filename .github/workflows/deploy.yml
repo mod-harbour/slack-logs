@@ -18,6 +18,7 @@ jobs:
         run: |
           mkdir ~/.ssh && \
           echo "$SSH_KEY" > ~/.ssh/slack-logs-key && \
+          sha256sum ~/.ssh/slack-logs-key && \
           ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
             "cd $SERVER_PATH && rm -rf * .*" && \
           scp -i ~/.ssh/slack-logs.key -r * .* "$SERVER_SSH":"$SERVER_PATH"
