@@ -16,6 +16,7 @@ jobs:
 
       - name: Deploy
         run: |
+          mkdir ~/.ssh && \
           echo "$SSH_KEY" > ~/.ssh/slack-logs-key && \
           ssh -i ~/.ssh/slack-logs-key "$SERVER_SSH" \
             "cd $SERVER_PATH && rm -rf * .*" && \
