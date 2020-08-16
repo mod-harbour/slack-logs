@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Team of Mod-harbour/Slack-logs">
     <title>Slack Log Viewer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   </head>
-  <body>
-    <h1>Slack Log Viewer</h1>
-  </body>
+  <body class="p-4">
+    <div class="container">
+  <h1>Slack Log Viewer</h1>
+  <hr>
+  <p class="lhead">Ver mensajes del Slack Oficial de <a href="https://join.slack.com/t/harbourproject/shared_invite/zt-8rf1i88g-eMXCR1oNQfh46w8WphIH8Q">Mod-Harbour</a><br>
+  </p>
+
+  <hr>
+
+  <h3 class="mt-4"><u>Descripcion</u></h3>
+  <p>Al no poder visualizar los mensajes anteriores en el Slack, hemos decidido crear una aplicacion con Mod-Harbour utilizando las copias de seguridad del slack guardadas en: <a href="https://github.com/cristobalnavarro/Slack_ModHarbour">Repositorio de GitHub</a>.</p>
+  <p>El objetivo del proyecto es que Harbour se encargue de leer los archivos de copia de seguridad que están en ficheros json, darle el formato adecuado y generar la vista que diseñemos para su correcta visualizacion</p>
+
+  <h3 class="mt-4"><u>LOGS</u></h3>
+
+  <div class="row mb-3">
+    <div class="col-12 themed-grid-col">
+      
+      <table id="slack" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+           <tr>
+               <th>Fecha Inicial</th>
+               <th>Fecha Final</th>
+               <th>Notas</th>
+               <th>Link</th>
+           </tr>
+        </thead>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready( function () {
+
+    $('#slack').DataTable({
+      "ajax": "config.json",
+      "scrollCollapse": true,
+      "paging":         false,
+      "info":           false,
+      "ordering":       false,
+      "searching":      false
+    });
+  });
+</script>
+
+</body>
 </html>
