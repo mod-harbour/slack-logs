@@ -8,3 +8,12 @@ DirectoryIndex index.prg
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.prg/$1 [L]
 </IfModule>
+
+# Disable access to config.json and the logs directory.
+# This is especially important if the logs directory contain corporate exports,
+# which may contain logs from direct messages and private groups.
+
+<Files "config.json">
+    Require all denied
+</Files>
+RedirectMatch 403 ^/logs/.*$
